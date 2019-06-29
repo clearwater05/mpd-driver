@@ -1,0 +1,51 @@
+{
+  "name": "mpd-driver",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint **/*.js",
+    "coverage": "jest --coverage",
+    "release": "standard-version"
+  },
+  "keywords": [],
+  "author": "Vadim Naboikin <vadim@naboikin.com>",
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.16.0",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.2.1",
+    "standard-version": "^6.0.1"
+  },
+  "lint-staged": {
+    "lib/**/*.js": [
+      "eslint --fix",
+      "npm test"
+    ]
+  },
+  "jest": {
+    "testURL": "http://localhost/",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.(js)$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "collectCoverageFrom": [
+      "**/libs/*.js",
+      "!**/build/**",
+      "!**/coverage/**",
+      "!**/__tests__/**",
+      "!**/node_modules/**"
+    ]
+  }
+}

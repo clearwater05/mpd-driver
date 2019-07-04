@@ -1,5 +1,5 @@
 const net = require('net');
-const Command = require('../commands');
+const Command = require('../api/commands');
 
 jest.mock('net');
 
@@ -37,11 +37,7 @@ describe('MPD driver test suite', () => {
                 cb(Buffer.from(testString));
             };
             const result = await command.sendCommand('test');
-            const answer = [
-                [ 'testValue1', '0' ],
-                [ 'testValue2', '0' ],
-                [ 'testValue3', '1' ]
-            ];
+            const answer = 'testValue1: 0\ntestValue2: 0\ntestValue3: 1';
 
             expect(net.connect).toHaveBeenCalledWith({address: 'localhost', port: 1000});
             expect(result).toEqual(answer);

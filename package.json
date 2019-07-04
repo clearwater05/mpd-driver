@@ -41,7 +41,7 @@
       "node_modules"
     ],
     "collectCoverageFrom": [
-      "**/libs/*.js",
+      "**/libs/**/*.js",
       "!**/build/**",
       "!**/coverage/**",
       "!**/__tests__/**",

@@ -1,6 +1,5 @@
 const net = require('net');
-
-const MPD_SERVICE_SEQUENCE = /^(OK|ACK|list_OK)(.*)$/m;
+const {MPD_SERVICE_SEQUENCE} = require('../utils/constants');
 
 class MPDCommands {
     constructor(options = {address: 'localhost', port: 1000}) {
@@ -10,7 +9,7 @@ class MPDCommands {
     /**
      *
      * @param command
-     * @returns {Promise<Array>}
+     * @returns {Promise<any>}
      */
     async sendCommand(command) {
         try {
@@ -24,29 +23,30 @@ class MPDCommands {
         }
     }
 
+    /**
+     *
+     * @param data
+     * @returns {String}
+     * @private
+     */
     __parseData(data) {
-        const result = [];
-        data.split('\n').forEach((line, index) => {
-            const r = line.match(MPD_SERVICE_SEQUENCE);
+        const result = data.trim().split('\n');
+        const r = result.pop().match(MPD_SERVICE_SEQUENCE);
 
-            if (r && r[1] === 'ACK') {
-                throw r[2];
-            }
+        result.shift();
 
-            if (!r && line) {
-                const values = line.split(':').map((val) => val.trim());
-                result.push(values);
-            }
-        });
+        if (r && r[1] === 'ACK') {
+            throw r[2];
+        }
 
-        return result;
+        return result.join('\n');
     }
 
     /**
      *
      * @param socket
      * @param command
-     * @returns {Promise<Array>}
+     * @returns {Promise<any>}
      * @private
      */
     __sendCommand(socket, command) {

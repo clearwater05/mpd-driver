@@ -1,7 +1,8 @@
 const EventEmitter = require('events').EventEmitter;
 
 const MPDEvents = require('./events');
-const MPDCommands = require('./commands');
+const MPDCommands = require('./api/commands');
+const Status = require('./api/status');
 
 class MpdDriver extends EventEmitter {
     /**
@@ -11,9 +12,20 @@ class MpdDriver extends EventEmitter {
     constructor(options = {address: 'localhost', port: 6600}) {
         super();
 
+        this.api = {};
         this.connected = true;
+        this.options = options;
         this.__initializeMPDEventHandler(options);
-        this.mpdCommands = new MPDCommands(options);
+        this.__initiateApi();
+    }
+
+    /**
+     *
+     * @private
+     */
+    __initiateApi() {
+        this.mpdCommands = new MPDCommands(this.options);
+        this.api.status = new Status(this.options);
     }
 
     /**

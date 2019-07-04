@@ -1,8 +1,8 @@
-require('../commands');
+require('../api/commands');
 require('../events');
 
 
-jest.mock('../commands');
+jest.mock('../api/commands');
 jest.mock('../events');
 
 const MpdClient = require('../mpd-driver');
